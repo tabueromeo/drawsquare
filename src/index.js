@@ -15,34 +15,35 @@ rootElement.appendChild(divElt);
 rootElement.addEventListener("mousedown", getClickPosition, false);
 
 /**
- * cette fonction écoute la pression sur la souris, recupère le position x,y du lu pixel pressé
- * Ensuite elle crée le la figure retangulaire grace à une div
+ * Cette fonction écoute la pression sur la souris, recupère le position x, y du pixel pressé
+ * Ensuite elle crée la figure retangulaire grace à une div
  * Avec le random, elle choisit une couleur aléatoire pour le rectangle
  * Ajoute un écouteur du click pour la suppression
- * ajoute un écouteur mousemove pour suivre le parcour de la souris entre le mousedown et le mouseup
+ * Ajoute un écouteur mousemove pour suivre le parcour de la souris entre le mousedown et le mouseup
  */
 function getClickPosition(e) {
 	xPosition = e.clientX;
 	yPosition = e.clientY;
 	divEltDraw = document.createElement("div");
 	randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
 	divEltDraw.addEventListener("click", removeSquare, false);
 	rootElement.addEventListener("mousemove", drawSquare, false);
 }
 
 /**
- * Cette fonction removeListener permet d'ajouter un écouteur à l'évènement mousemove qui nous permet
- * d'appeler a fonction qui dessine le rectangle
+ * Cette fonction removehandle permet de retirer l'écouter de l'évènement mousemove.
+ * Elle sera appelée lorsque l'utilisateur va lacher la pression sur la souris mouseup
  */
-function removeListener() {
+function removehandle() {
 	rootElement.removeEventListener("mousemove", drawSquare);
 }
 
 /**
  *
  * @param {} e
- * cette fonction dessine le rectangle grace à la position de mousedown recupérée avec la fonction getClickPosition
- * Et la position actuelle de la souris durant le mousemove
+ * Cette fonction dessine le rectangle grace à la position de mousedown recupérée avec la fonction getClickPosition
+ * Et la position actuelle de la souris durant le mousemove (x,y)
  * Ensuite, la fonction ajoute le rectangle comme enfant de la div principale d'id root
  * et écoute le mouseup, c-a-dire lorsque l'utilisation arrête de presser sur la souris
  */
@@ -61,15 +62,16 @@ function drawSquare(e) {
 	}
 
 	rootElement.appendChild(divEltDraw);
-	rootElement.addEventListener("mouseup", removeListener, false);
+	rootElement.addEventListener("mouseup", removehandle, false);
 }
 
 /**
  *
  * @param {} e
- * cette fonction reçois l'évènement e, recupère l'élément sur lequel on a cliqué avec e.target
- * lance la rotation de l'élément et sauvegarde
+ * Cette fonction reçois l'évènement e, recupère l'élément sur lequel on a cliqué avec e.target
+ * lance la rotation de l'élément et le sauvegarde
  * dans un tableau des rectangles à supprimer.
+ * Elle lance ensuite la suppression qui doit patienter 2 minutes d'animation avant de s'excuter
  */
 function removeSquare(e) {
 	e.target.style.animation = "rotate 2s";
@@ -81,6 +83,12 @@ function removeSquare(e) {
 		}, 2000);
 	}
 }
+
+/**
+ * La fonction deleteSquare permet de supprimer les rectangle sauvegardé dans le tableau
+ * Pour chaque rectangle à supprimer après le premier rectangle,
+ * la fonction attends 1 minutes avant la suppression et suite, vide le tableau de suppression.
+ */
 
 function deleteSquare() {
 	setTimeout(() => {
