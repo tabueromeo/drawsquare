@@ -18,7 +18,7 @@ rootElement.addEventListener("mousedown", getClickPosition, false);
  * Cette fonction écoute la pression sur la souris, recupère le position x, y du pixel pressé
  * Ensuite elle crée la figure retangulaire grace à une div
  * Avec le random, elle choisit une couleur aléatoire pour le rectangle
- * Ajoute un écouteur du click pour la suppression
+ * Ajoute un écouteur du double-click pour la suppression
  * Ajoute un écouteur mousemove pour suivre le parcour de la souris entre le mousedown et le mouseup
  */
 function getClickPosition(e) {
@@ -27,7 +27,7 @@ function getClickPosition(e) {
 	divEltDraw = document.createElement("div");
 	randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
-	divEltDraw.addEventListener("click", removeSquare, false);
+	divEltDraw.addEventListener("dblclick", removeSquare, false);
 	rootElement.addEventListener("mousemove", drawSquare, false);
 }
 
